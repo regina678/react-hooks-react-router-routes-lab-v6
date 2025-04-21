@@ -1,9 +1,19 @@
-import { afterEach } from 'vitest'
-import { cleanup } from '@testing-library/react'
-import '@testing-library/jest-dom/vitest'
-import 'whatwg-fetch';
-import {Blob} from 'node:buffer';
+import { vi } from 'vitest';
+import '@testing-library/jest-dom';
+
+// Mock fetch globally
+global.fetch = vi.fn(() =>
+  Promise.resolve({
+    json: () => Promise.resolve([]),
+    ok: true,
+    status: 200
+  })
+);
+
+beforeEach(() => {
+  fetch.mockClear();
+});
 
 afterEach(() => {
-    cleanup();
-})
+  vi.clearAllMocks();
+});
